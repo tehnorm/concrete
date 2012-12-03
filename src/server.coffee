@@ -92,7 +92,11 @@ deferredApp = ->
 
   app.post '/', (req, res) ->
       if req.body.payload?
-        payload = req.body.payload
+        try
+          payload = JSON.parse req.body.payload
+        catch error
+          console.log error
+          payload = null
       else
         payload = null
 
