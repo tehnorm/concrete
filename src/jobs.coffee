@@ -9,13 +9,14 @@ ObjectID = mongo.BSONPure.ObjectID
 
 jobs = module.exports =
     current: null
-    addJob: (next)->
+    addJob: (next,payload)->
         db.collection 'jobs', (error, collection) ->
             job =
                 addedTime: new Date().getTime()
                 log: ''
                 running: no
                 finished: no
+            job.ref = payload.after if payload and payload.after?
             collection.insert job
             next(job) if next?
 

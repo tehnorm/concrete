@@ -42,6 +42,7 @@ app.configure ->
     app.use express.compiler src: coffeeDir, dest: publicDir, enable: ['coffeescript']
 
     app.use express.logger()
+    app.use express.bodyParser()
     app.use app.router
     app.use global.currentNamespace, express.static __dirname + '/public'
 
@@ -90,6 +91,11 @@ deferredApp = ->
               res.send(200)
 
   app.post '/', (req, res) ->
+      if req.body.payload?
+        payload = req.body.payload
+      else
+        payload = null
+
       jobs.addJob (job)->
           runner.build()
           if req.xhr
@@ -97,6 +103,7 @@ deferredApp = ->
               res.json job
           else
               res.redirect "#{@_locals.baseUrl()}/"
+      , payload
 
 if global.currentNamespace != "/"
   app.namespace global.currentNamespace, deferredApp
