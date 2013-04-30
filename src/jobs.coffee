@@ -12,6 +12,7 @@ ObjectID = mongo.BSONPure.ObjectID
 jobs = module.exports =
     current: null
     addJob: (next,payload)->
+        console.log "addJob -------------"
         console.log payload
         db.collection 'jobs', (error, collection) ->
             job =

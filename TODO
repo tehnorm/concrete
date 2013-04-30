@@ -1,0 +1,10 @@
+add more details to list
+ - committer
+ - link to the commit
+ - remove the build number, or move it someplace else
+ - make sure that success and failure of a build is very visible
+ - show branch name
+add pagination
+show active builds
+hook up a real build
+add flags to build only certian branchs

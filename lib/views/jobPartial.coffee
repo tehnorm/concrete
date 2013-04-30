@@ -3,6 +3,8 @@ li '.job', ->
         d = new Date(@job.addedTime)
         div '.time', -> "#{d.toDateString()} #{d.toTimeString()}"
         div '.job_id', -> "#{@job._id.toString()}"
+        if @job.ref
+            div '.ref', -> img src: "#{@gravatar(@job.payload.head_commit.author.email.toString())}"
         if @job.finished
             outcomeClass = if @job.failed then '.failure' else '.success'
             div ".outcome#{outcomeClass}", ->

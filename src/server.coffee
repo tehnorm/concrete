@@ -1,5 +1,6 @@
 express = require 'express'
 stylus = require 'stylus'
+gravatar = require 'gravatar'
 fs = require 'fs'
 path = require 'path'
 runner = require './runner'
@@ -18,6 +19,10 @@ else
 app.helpers
   baseUrl: ->
     path.normalize("#{global.currentNamespace}/")
+
+  gravatar: (email)->
+    gravatar.url(email, {s: '30', r: 'pg'})
+
 
 app.configure ->
     app.set 'views', __dirname + '/views'
@@ -100,15 +105,13 @@ deferredApp = ->
       else
         payload = null
 
-      console.log payload
-
-      jobs.addJob (job, payload)->
+      jobs.addJob (job)->
           runner.build()
           if req.xhr
-              console.log job
               res.json job
           else
               res.redirect "#{@_locals.baseUrl()}/"
+      , payload
 
 if global.currentNamespace != "/"
   app.namespace global.currentNamespace, deferredApp
