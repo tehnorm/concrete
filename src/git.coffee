@@ -25,6 +25,7 @@ git = module.exports =
 
         # we're using node's path to run directory level operations
         path = require 'path'
+        fs = require 'fs'
 
         # get the full path to target and change the process to that directory
         if target.toString().charAt(0) isnt '/'
@@ -37,7 +38,7 @@ git = module.exports =
         git.success = path.normalize target+'/.git/hooks/build-worked'
 
         # make sure the path exists and is a valid repo
-        path.exists git.target, (exists)->
+        fs.exists git.target, (exists)->
             if exists is no
                 console.log "'#{target}' is not a valid Git repo".red
                 process.exit 1
