@@ -100,14 +100,15 @@ deferredApp = ->
       else
         payload = null
 
-      jobs.addJob (job)->
+      console.log payload
+
+      jobs.addJob (job, payload)->
           runner.build()
           if req.xhr
               console.log job
               res.json job
           else
               res.redirect "#{@_locals.baseUrl()}/"
-      , payload
 
 if global.currentNamespace != "/"
   app.namespace global.currentNamespace, deferredApp
