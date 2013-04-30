@@ -49,12 +49,20 @@ runNextJob = ->
     return no if jobs.current?
     jobs.next ->
         console.log "jobsNext"
-        git.pull ->
-            runTask (success)->
-                jobs.currentComplete success, ->
-                    runNextJob()
+        git.pull (result)->
+            console.log "git.pull complete"
+            console.log result
+            if result?
+                runFile git.failure, ->
+                    jobs.currentComplete no, ->
+                      runNextJob()
+            else
+                runTask (success)->
+                    jobs.currentComplete success, ->
+                        runNextJob()
 
 runTask = (next)->
+    console.log "runTask"
     jobs.updateLog jobs.current, "Executing '#{git.runner}'"
     exec git.runner,{maxBuffer: 1024*1024}, (error, stdout, stderr)=>
         if error?

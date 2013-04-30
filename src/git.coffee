@@ -59,12 +59,12 @@ git = module.exports =
                     out = "#{error}"
                     jobs.updateLog jobs.current, out, ->
                         console.log out.red
-                        jobs.currentComplete(no, next) 
+                        next(no)
                 else
                     out = "Updated '#{git.branch}' branch"
                     jobs.updateLog jobs.current, out, ->
                         console.log out.grey
-                        next()
+                        next(yes)
 
 getUser = ->
     exec 'git config --get ' + git.config.user, (error, stdout, stderr)=>
