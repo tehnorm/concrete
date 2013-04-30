@@ -57,8 +57,9 @@ git = module.exports =
             exec 'git fetch && git reset --hard origin/' + git.branch, (error, stdout, stderr)=>
                 if error?
                     out = "#{error}"
-                    jobs.updateLog jobs.current, out
-                    console.log out.red
+                    jobs.updateLog jobs.current, out, ->
+                        console.log out.red
+                        jobs.currentComplete(no, next) 
                 else
                     out = "Updated '#{git.branch}' branch"
                     jobs.updateLog jobs.current, out, ->

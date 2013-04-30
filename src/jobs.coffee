@@ -64,12 +64,16 @@ jobs = module.exports =
         db.collection 'jobs', (error, collection) ->
             collection.findOne {_id: new ObjectID id}, (error, job) ->
                 console.log "update log for job #{job}, #{string}"
+                console.log job
+                console.log next
                 return no if not job?
+                console.log "got here"
                 job.log += "#{string} <br />"
                 collection.save(job)
                 next() if next?
 
     currentComplete: (success, next)->
+        console.log('currentComplete Called')
         db.collection 'jobs', (error, collection) ->
             collection.findOne {_id: new ObjectID jobs.current}, (error, job) ->
                 return no if not job?

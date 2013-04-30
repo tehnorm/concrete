@@ -45,8 +45,10 @@ runner = module.exports =
         runNextJob()
 
 runNextJob = ->
+    console.log "runNextJob"
     return no if jobs.current?
     jobs.next ->
+        console.log "jobsNext"
         git.pull ->
             runTask (success)->
                 jobs.currentComplete success, ->
